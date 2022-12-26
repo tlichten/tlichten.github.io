@@ -39,11 +39,11 @@
             };
             recognition.start();
       }
-       function completeText(text) {
-
-          var url = "https://api.openai.com/v1/engines/davinci/completions";
+       async function completeText(text) {
+          
+          var url = "https://api.openai.com/v1/completions";
           var bearer = 'Bearer ' + API_KEY
-          fetch(url, {
+          const response = await fetch(url, {
             method: 'POST',
             headers: {
               'Authorization': bearer,
@@ -51,26 +51,18 @@
             },
             body: JSON.stringify({
               "prompt": text,
-              "max_tokens": 100,
-              "temperature": 1,
-              "top_p": 1,
-              "n": 1,
-              "stream": false,
-              "logprobs": null,
-              "stop": "\n"
+              "model": "text-davinci-003"
             })
 
-
-          }).then(response => {
-            const data = response.json();
-            console.log(data);
-            return data['choices'][0].text;
 
           })
             .catch(error => {
               console.log('Something bad happened ' + error)
             });
-
+        data = await response.json();
+        console.log("Answer: " + data['choices'][0].text);
+        return data['choices'][0].text;
+         
       }
 
   </script>
