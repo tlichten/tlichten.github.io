@@ -5,7 +5,7 @@
     <title>Voice Input PWA</title>
   </head>
   <body>
-    <h1>V 2</h1>
+    <h1>V 3</h1>
     <button id="mic-button">Press to speak</button>
   </body>
   <script>
@@ -38,8 +38,8 @@
                 output.textContent = completedText;
                 document.body.appendChild(output);
                 var turn = {
-                    input: input,
-                    output: output
+                    input: transcript,
+                    output: completedText
                 }
                 conversation.push(turn);
                 console.log(turn);
