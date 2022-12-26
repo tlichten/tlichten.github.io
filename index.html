@@ -40,29 +40,43 @@
             recognition.start();
       }
       async function completeText(text) {
-      
-        
-        const url = "https://api.openai.com/v1/engines/davinci/completions";
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            prompt: text,
-            max_tokens: 2048,
-            temperature: 1,
-            top_p: 1,
-            n: 1,
-            stream: false,
-            logprobs: null,
-            stop: "\n"
-          })
-        });
 
-        const data = await response.json();
-        return data.choices[0].text;
+        console.log("Calling GPT3")
+          var url = "https://api.openai.com/v1/engines/davinci/completions";
+          var bearer = 'Bearer ' + API_KEY
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'Authorization': bearer,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              "prompt": text,
+              "max_tokens": 100,
+              "temperature": 1,
+              "top_p": 1,
+              "n": 1,
+              "stream": false,
+              "logprobs": null,
+              "stop": "\n"
+            })
+
+
+          }).then(response => {
+            const data = response.json();
+            return data['choices'][0].text;
+
+          }).then(data => {
+            console.log(data)
+            console.log(typeof data)
+            console.log(Object.keys(data))
+            console.log(data['choices'][0].text)
+
+          })
+            .catch(error => {
+              console.log('Something bad happened ' + error)
+            });
+
       }
 
   </script>
