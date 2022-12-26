@@ -5,13 +5,16 @@
     <title>Voice Input PWA</title>
   </head>
   <body>
-    <h1>V 9</h1>
+    <h1>V 10</h1>
     <button id="mic-button">Press to speak</button>
   </body>
   <script>
       const micButton = document.getElementById('mic-button');
       micButton.addEventListener('click', startVoiceRecognition);
-      var conversation = [];
+      var conversation = null;
+      if (localStorage.getItem('history')) {
+          conversation = localStorage.getItem('history');
+      }
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const API_KEY = urlParams.get('API_KEY');
@@ -48,6 +51,7 @@
                 }
                 conversation.push(turn);
                 console.log(history);
+               localStorage.setItem('history', history);
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
