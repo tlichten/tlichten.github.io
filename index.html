@@ -1,14 +1,75 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
-    <title>Voice Input PWA</title>
+    <title>Nea.chat</title>
   </head>
   <body>
-    <h1>V 14</h1>
+    <h1>V 15</h1>
+    <button id="button">Start listening</button>
+    <p id="message" hidden aria-hidden="true">
+      Your browser doesn't support Speech Recognition. Sorry.
+    </p>
+    <p>
+    <p></p>
     <button id="mic-button">Press to speak</button>
+    <div id="result"></div>
   </body>
   <script>
+     window.addEventListener("DOMContentLoaded", () => {
+        const button = document.getElementById("button");
+        const result = document.getElementById("result");
+        const main = document.getElementsByTagName("main")[0];
+        let listening = false;
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (typeof SpeechRecognition !== "undefined") {
+          const recognition = new SpeechRecognition();
+
+          const stop = () => {
+            main.classList.remove("speaking");
+            recognition.stop();
+            button.textContent = "Start listening";
+          };
+
+          const start = () => {
+            main.classList.add("speaking");
+            recognition.start();
+            button.textContent = "Stop listening";
+          };
+
+          const onResult = event => {
+            result.innerHTML = "";
+            for (const res of event.results) {
+              const text = document.createTextNode(res[0].transcript);
+              const p = document.createElement("p");
+              if (res.isFinal) {
+                p.classList.add("final");
+              }
+              p.appendChild(text);
+              result.appendChild(p);
+            }
+          };
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.addEventListener("result", onResult);
+          button.addEventListener("click", event => {
+            listening ? stop() : start();
+            listening = !listening;
+          });
+        } else {
+          button.remove();
+          const message = document.getElementById("message");
+          message.removeAttribute("hidden");
+          message.setAttribute("aria-hidden", "false");
+        }
+      });
+
+
+
       const micButton = document.getElementById('mic-button');
       micButton.addEventListener('click', startVoiceRecognition);
       var conversation = JSON.parse(localStorage.getItem("history3") || "[]");
@@ -59,11 +120,9 @@
                 // set the voice to german
                 speakText.lang = 'de-DE';
                 // Get a list of available voices
-                const voices = synth.getVoices();
+                const voices = await synth.getVoices();
                 // Set the voice to the first available female voice
                 speakText.voice = voices.find(voice => voice.gender === 'female');
-
-                speakText.rate = 1.1;
               
                 synth.speak(speakText);
             };
