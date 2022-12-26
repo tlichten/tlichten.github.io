@@ -26,11 +26,13 @@
       const lang = 'de-DE';
       const micButton = document.getElementById('mic-button');
       micButton.addEventListener('click', startVoiceRecognition);
-      var conversation = JSON.parse(localStorage.getItem("history3") || "[]");
+      const historyKey = "history4";
+      var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
 
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const API_KEY = urlParams.get('API_KEY');
+
 
      window.addEventListener("DOMContentLoaded", () => {
         const button = document.getElementById("button");
@@ -128,7 +130,7 @@
                 }
                 conversation.push(turn);
                 console.log(history);
-                localStorage.setItem("history3", JSON.stringify(conversation));
+                localStorage.setItem(historyKey, JSON.stringify(conversation));
   
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
