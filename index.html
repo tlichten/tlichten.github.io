@@ -5,7 +5,7 @@
     <title>Voice Input PWA</title>
   </head>
   <body>
-    <h1>V 6</h1>
+    <h1>V 7</h1>
     <button id="mic-button">Press to speak</button>
   </body>
   <script>
@@ -18,6 +18,8 @@
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
             recognition.onresult = async function (event) {
+                console.log("Conversation at start");
+                console.log(conversation);
                 const transcript = event.results[0][0].transcript;
                 const input = document.createElement('p');
                 input.textContent = transcript;
@@ -46,7 +48,8 @@
                     output: completedText
                 }
                 conversation.push(turn);
-                console.log(turn);
+                console.log("Conversation at end");
+                console.log(conversation);
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
