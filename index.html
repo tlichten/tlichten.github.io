@@ -15,10 +15,11 @@
       Your browser doesn't support Speech Recognition. Sorry.
     </p>
     <div id="result"></div>
-    <div id="output"></div>
-   </main>
     <p>
     <p></p>
+    <div id="output"></div>
+   </main>
+
     <button id="mic-button" hidden>Press to speak</button>
 
   </body>
@@ -38,6 +39,7 @@
      window.addEventListener("DOMContentLoaded", () => {
         const button = document.getElementById("button");
         const result = document.getElementById("result");
+        const output = document.getElementById("output");
         const main = document.getElementsByTagName("main")[0];
         let listening = false;
         let lastResult = "";
@@ -57,6 +59,8 @@
             main.classList.add("speaking");
             recognition.start();
             button.textContent = "Stop listening";
+            output.textContent = "";
+            
           };
 
           const onResult = event => {
