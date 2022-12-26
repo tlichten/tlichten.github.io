@@ -8,9 +8,9 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <h1>V 25</h1>
+    <small>V 26</small>
     <main>
-    <button id="button">Start listening</button>
+    <button id="button">Press & Hold</button>
     <p id="message" hidden aria-hidden="true">
       Your browser doesn't support Speech Recognition. Sorry.
     </p>
@@ -53,7 +53,7 @@
           const stop = () => {
             main.classList.remove("speaking");
             recognition.stop();
-            button.textContent = "Start listening";
+            button.textContent = "Press & Hold";
             completeTranscript(lastResult);
           };
 
