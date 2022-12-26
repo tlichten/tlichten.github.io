@@ -9,6 +9,9 @@
     <button id="mic-button">Press to speak</button>
   </body>
   <script>
+      const micButton = document.getElementById('mic-button');
+      micButton.addEventListener('click', startVoiceRecognition);
+    
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
             recognition.onresult = function (event) {
