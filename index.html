@@ -39,9 +39,8 @@
             };
             recognition.start();
       }
-      async function completeText(text) {
+       function completeText(text) {
 
-        console.log("Calling GPT3")
           var url = "https://api.openai.com/v1/engines/davinci/completions";
           var bearer = 'Bearer ' + API_KEY
           fetch(url, {
@@ -64,13 +63,8 @@
 
           }).then(response => {
             const data = response.json();
+            console.log(data);
             return data['choices'][0].text;
-
-          }).then(data => {
-            console.log(data)
-            console.log(typeof data)
-            console.log(Object.keys(data))
-            console.log(data['choices'][0].text)
 
           })
             .catch(error => {
