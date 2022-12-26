@@ -18,6 +18,8 @@
       const API_KEY = urlParams.get('API_KEY');
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
+            // set the language of the recognition to german
+            recognition.lang = 'de-DE';
             recognition.onresult = async function (event) {
 
                 const transcript = event.results[0][0].transcript;
@@ -54,7 +56,8 @@
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
-
+                // set the voice to german
+                speakText.lang = 'de-DE';
                 // Get a list of available voices
                 const voices = synth.getVoices();
                 // Set the voice to the first available female voice
