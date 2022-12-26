@@ -26,12 +26,13 @@
         const button = document.getElementById("button");
         const result = document.getElementById("result");
         const main = document.getElementsByTagName("main")[0];
+        const lang = 'de-DE';
         let listening = false;
         const SpeechRecognition =
           window.SpeechRecognition || window.webkitSpeechRecognition;
         if (typeof SpeechRecognition !== "undefined") {
           const recognition = new SpeechRecognition();
-
+          recognition.lang = lang;
           const stop = () => {
             main.classList.remove("speaking");
             recognition.stop();
@@ -84,7 +85,7 @@
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
             // set the language of the recognition to german
-            recognition.lang = 'de-DE';
+            recognition.lang = lang;
             recognition.onresult = async function (event) {
 
                 const transcript = event.results[0][0].transcript;
@@ -129,7 +130,7 @@
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
                 // set the voice to german
-                speakText.lang = 'de-DE';
+                speakText.lang = lang;
                 // Get a list of available voices
                 const voices = await synth.getVoices();
                 // Set the voice to the first available female voice
