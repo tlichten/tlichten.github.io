@@ -12,6 +12,9 @@
       const micButton = document.getElementById('mic-button');
       micButton.addEventListener('click', startVoiceRecognition);
     
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const API_KEY = urlParams.get('API_KEY')
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
             recognition.onresult = async function (event) {
