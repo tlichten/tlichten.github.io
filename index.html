@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <title>Voice Input PWA</title>
+  </head>
+  <body>
+    <h1>Voice Input PWA</h1>
+    <button id="mic-button">Press to speak</button>
+  </body>
+  <script>
+        function startVoiceRecognition() {
+            const recognition = new webkitSpeechRecognition();
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                console.log(transcript);
+                const output = document.createElement('p');
+                output.textContent = transcript;
+                document.body.appendChild(output);
+            };
+            recognition.start();
+}
+
+  </script>
+</html>
