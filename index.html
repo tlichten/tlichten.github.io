@@ -23,7 +23,7 @@
                 input.textContent = transcript;
                 document.body.appendChild(input);
                 let history = "";
-                if (conversation.size > 0) {
+                if (conversation.len > 0) {
                    history += "Our conversation so far:\n\n"
                   conversation.forEach(item => {
                     history += `I said: "${item.input}"\n\n`;
