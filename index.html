@@ -59,7 +59,7 @@
             }
           };
           recognition.continuous = true;
-          recognition.interimResults = true;
+          recognition.interimResults = false;
           recognition.addEventListener("result", onResult);
           button.addEventListener("click", event => {
             listening ? stop() : start();
