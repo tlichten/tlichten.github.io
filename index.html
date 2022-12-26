@@ -148,7 +148,7 @@
                 speakText.voice = voices.find(voice => voice.gender === 'female');
                 // if we are on Android, set the rate to 1.1
                 if (navigator.userAgent.indexOf("Android") !== -1)
-                  speakText.rate = 1.1;
+                  speakText.rate = 1.2;
                 synth.speak(speakText);
       }
 
