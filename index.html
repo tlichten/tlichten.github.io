@@ -14,17 +14,19 @@
     
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
-            recognition.onresult = function (event) {
+            recognition.onresult = async function (event) {
                 const transcript = event.results[0][0].transcript;
                 console.log(transcript);
                 const output = document.createElement('p');
-                output.textContent = transcript;
+              
+                const completedText = await completeText(transcript);              
+                output.textContent = completedText;
                 document.body.appendChild(output);
 
 
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
-                const speakText = new SpeechSynthesisUtterance(transcript);
+                const speakText = new SpeechSynthesisUtterance(completedText);
 
                 // Get a list of available voices
                 const voices = synth.getVoices();
