@@ -28,6 +28,7 @@
         const main = document.getElementsByTagName("main")[0];
         const lang = 'de-DE';
         let listening = false;
+        let lastResult = "";
         const SpeechRecognition =
           window.SpeechRecognition || window.webkitSpeechRecognition;
         if (typeof SpeechRecognition !== "undefined") {
@@ -53,7 +54,7 @@
               if (res.isFinal) {
                 p.classList.add("final");
                 if (!listening)
-                  completeTranscript(text);
+                  completeTranscript(res[0].transcript);
               }
               p.appendChild(text);
               result.appendChild(p);
