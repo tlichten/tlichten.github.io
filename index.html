@@ -8,7 +8,7 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <small>V 26</small>
+    <small>V 27</small>
     <main>
     <button id="button">Press & Hold</button>
     <p id="message" hidden aria-hidden="true">
@@ -60,7 +60,7 @@
           const start = () => {
             main.classList.add("speaking");
             recognition.start();
-            button.textContent = "Stop listening";
+            button.textContent = "Release to stop";
             result.textContent = "";
             output.textContent = "";
             
@@ -88,11 +88,11 @@
           }); */
           button.addEventListener("touchstart", event => {
             listening ? stop() : start();
-            listening = !listening;
+            listening = true;
           });
           button.addEventListener("touchend", event => {
             listening ? stop() : start();
-            listening = !listening;
+            listening = false;
           });
         } else {
           button.remove();
