@@ -27,6 +27,8 @@
 
       const lang = 'de-DE';
       const micButton = document.getElementById('mic-button');
+
+      
       micButton.addEventListener('click', startVoiceRecognition);
       const historyKey = "history4";
       var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
@@ -81,6 +83,14 @@
           recognition.interimResults = true;
           recognition.addEventListener("result", onResult);
           button.addEventListener("click", event => {
+            listening ? stop() : start();
+            listening = !listening;
+          });
+          button.addEventListener("touchstart", event => {
+            listening ? stop() : start();
+            listening = !listening;
+          });
+          button.addEventListener("touchend", event => {
             listening ? stop() : start();
             listening = !listening;
           });
@@ -146,7 +156,7 @@
                 const voices = await synth.getVoices();
                 // Set the voice to the first available female voice
                 speakText.voice = voices.find(voice => voice.gender === 'female');
-                // if we are on Android, set the rate to 1.1
+                // if we are on Android, set the rate faster
                 if (navigator.userAgent.indexOf("Android") !== -1)
                   speakText.rate = 1.2;
                 synth.speak(speakText);
