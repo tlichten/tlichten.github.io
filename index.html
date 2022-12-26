@@ -11,7 +11,7 @@
   <script>
       const micButton = document.getElementById('mic-button');
       micButton.addEventListener('click', startVoiceRecognition);
-      var conversation = JSON.parse(localStorage.getItem("history2") || "[]");
+      var conversation = JSON.parse(localStorage.getItem("history3") || "[]");
 
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
@@ -49,7 +49,7 @@
                 }
                 conversation.push(turn);
                 console.log(history);
-                localStorage.setItem("history2", JSON.stringify(history));
+                localStorage.setItem("history3", JSON.stringify(conversation));
   
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
