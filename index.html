@@ -8,7 +8,7 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <h1>V 22</h1>
+    <h1>V 23</h1>
     <main>
     <button id="button">Start listening</button>
     <p id="message" hidden aria-hidden="true">
@@ -59,6 +59,7 @@
             main.classList.add("speaking");
             recognition.start();
             button.textContent = "Stop listening";
+            result.textContent = "";
             output.textContent = "";
             
           };
@@ -145,7 +146,9 @@
                 const voices = await synth.getVoices();
                 // Set the voice to the first available female voice
                 speakText.voice = voices.find(voice => voice.gender === 'female');
-              
+                // if we are on Android, set the rate to 1.1
+                if (navigator.userAgent.indexOf("Android") !== -1)
+                  speakText.rate = 1.1;
                 synth.speak(speakText);
       }
 
