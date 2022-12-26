@@ -58,8 +58,8 @@
               result.appendChild(p);
             }
           };
-          recognition.continuous = true;
-          recognition.interimResults = false;
+          recognition.continuous = false;
+          recognition.interimResults = true;
           recognition.addEventListener("result", onResult);
           button.addEventListener("click", event => {
             listening ? stop() : start();
