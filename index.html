@@ -5,7 +5,7 @@
     <title>Voice Input PWA</title>
   </head>
   <body>
-    <h1>V 8</h1>
+    <h1>V 9</h1>
     <button id="mic-button">Press to speak</button>
   </body>
   <script>
@@ -14,31 +14,30 @@
       var conversation = [];
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      const API_KEY = urlParams.get('API_KEY')
+      const API_KEY = urlParams.get('API_KEY');
       function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
             recognition.onresult = async function (event) {
-                console.log("Conversation at start");
-                console.log(conversation);
+
                 const transcript = event.results[0][0].transcript;
                 const input = document.createElement('p');
                 input.textContent = transcript;
                 document.body.appendChild(input);
                 let history = "";
                 if (conversation.length > 0) {
-                   console.log("there is a history:");
+                
                    history += "Our conversation so far:\n\n"
                    conversation.forEach(item => {
                     history += `I said: "${item.input}"\n\n`;
                     history += `You responded: "${item.output}"\n\n\n`;
                   });
-                  console.log(history);
+                 
                 } else {
                   console.log("conversation is empty");
                 }
                 history += `I say: "${transcript}"\n\n`;
                 history += `You respond:`;
-                console.log(history);
+                
                 const completedText = await completeText(history);   
                 const output = document.createElement('p');
                 output.textContent = completedText;
@@ -48,8 +47,7 @@
                     output: completedText
                 }
                 conversation.push(turn);
-                console.log("Conversation at end");
-                console.log(conversation);
+                console.log(history);
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
@@ -87,7 +85,6 @@
               console.log('Something bad happened ' + error)
             });
         data = await response.json();
-        console.log("Answer: " + data['choices'][0].text);
         return data['choices'][0].text;
          
       }
