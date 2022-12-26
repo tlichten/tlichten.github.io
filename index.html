@@ -8,13 +8,14 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <h1>V 20</h1>
+    <h1>V 21</h1>
     <main>
     <button id="button">Start listening</button>
     <p id="message" hidden aria-hidden="true">
       Your browser doesn't support Speech Recognition. Sorry.
     </p>
     <div id="result"></div>
+    <div id="output"></div>
    </main>
     <p>
     <p></p>
@@ -68,8 +69,7 @@
                 lastResult = res[0].transcript;
   
               }
-              p.appendChild(text);
-              result.appendChild(p);
+              result.textContent = res[0].transcript;
             }
           };
           recognition.continuous = true;
@@ -104,7 +104,7 @@
       async function completeTranscript(transcript) {
                 const input = document.createElement('p');
                 input.textContent = transcript;
-                document.body.appendChild(input);
+                
                 let history = "";
                 if (conversation.length > 0) {
                 
@@ -123,7 +123,7 @@
                 const completedText = await completeText(history);   
                 const output = document.createElement('p');
                 output.textContent = completedText;
-                document.body.appendChild(output);
+                document.getElementById('output').textContent = completedText;
                 let turn = {
                     input: transcript,
                     output: completedText
