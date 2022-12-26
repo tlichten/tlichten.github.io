@@ -9,7 +9,7 @@
     <button id="mic-button">Press to speak</button>
   </body>
   <script>
-        function startVoiceRecognition() {
+      function startVoiceRecognition() {
             const recognition = new webkitSpeechRecognition();
             recognition.onresult = function (event) {
                 const transcript = event.results[0][0].transcript;
@@ -17,9 +17,20 @@
                 const output = document.createElement('p');
                 output.textContent = transcript;
                 document.body.appendChild(output);
+
+
+                // Synthesize speech from the text
+                const synth = window.speechSynthesis;
+                const speakText = new SpeechSynthesisUtterance(transcript);
+
+                // Get a list of available voices
+                const voices = synth.getVoices();
+                // Set the voice to the first available female voice
+                speakText.voice = voices.find(voice => voice.gender === 'female');
+
+                synth.speak(speakText);
             };
             recognition.start();
-}
-
+      }
   </script>
 </html>
