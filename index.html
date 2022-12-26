@@ -38,6 +38,7 @@
             main.classList.remove("speaking");
             recognition.stop();
             button.textContent = "Start listening";
+            completeTranscript(lastResult);
           };
 
           const start = () => {
@@ -53,8 +54,8 @@
               const p = document.createElement("p");
               if (res.isFinal) {
                 p.classList.add("final");
-                if (!listening)
-                  completeTranscript(res[0].transcript);
+                lastResult = res[0].transcript;
+  
               }
               p.appendChild(text);
               result.appendChild(p);
