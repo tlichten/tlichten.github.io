@@ -51,6 +51,7 @@
               const p = document.createElement("p");
               if (res.isFinal) {
                 p.classList.add("final");
+                completeTranscript(text);
               }
               p.appendChild(text);
               result.appendChild(p);
@@ -87,6 +88,13 @@
             recognition.onresult = async function (event) {
 
                 const transcript = event.results[0][0].transcript;
+                completeTranscript(transcript);
+            };
+            recognition.start();
+      }
+
+
+      async function completeTranscript(transcript) {
                 const input = document.createElement('p');
                 input.textContent = transcript;
                 document.body.appendChild(input);
@@ -128,8 +136,6 @@
                 speakText.voice = voices.find(voice => voice.gender === 'female');
               
                 synth.speak(speakText);
-            };
-            recognition.start();
       }
 
       async function completeText(text) {
