@@ -8,7 +8,7 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <h1>V 24</h1>
+    <h1>V 25</h1>
     <main>
     <button id="button">Start listening</button>
     <p id="message" hidden aria-hidden="true">
@@ -82,10 +82,10 @@
           recognition.continuous = true;
           recognition.interimResults = true;
           recognition.addEventListener("result", onResult);
-          button.addEventListener("click", event => {
+          /*  button.addEventListener("click", event => {
             listening ? stop() : start();
             listening = !listening;
-          });
+          }); */
           button.addEventListener("touchstart", event => {
             listening ? stop() : start();
             listening = !listening;
