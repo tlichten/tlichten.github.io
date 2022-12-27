@@ -63,7 +63,6 @@
         debug("stop");
         main.classList.remove("speaking");
         recognition.stop();
-
         setTimeout(completeTranscript, 100, lastResult);
         debug("stopped");
       };
@@ -121,7 +120,7 @@
     }
     history += `I say: "${transcript}"\n\n`;
     history += `You respond:`;
-
+    document.getElementById('output').innerHTML="<i class='fa-spinner fa-spin fa-4x'></i>";
     const completedText = await completeText(history);
     debug("completedText: " + completedText);
     document.getElementById('output').textContent = completedText;
@@ -160,6 +159,7 @@
 
   async function completeText(text) {
     debug("completeText");
+    
     var url = "https://api.openai.com/v1/completions";
     var bearer = 'Bearer ' + API_KEY;
     const response = await fetch(url, {
