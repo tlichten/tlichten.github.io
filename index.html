@@ -123,6 +123,7 @@
     document.getElementById('output').innerHTML="<i class='fa fa-spinner fa-spin fa-4x'></i>";
     const completedText = await completeText(history);
     debug("completedText: " + completedText);
+    document.getElementById('output').innerHTML="";
     document.getElementById('output').textContent = completedText;
     let turn = {
       input: transcript,
