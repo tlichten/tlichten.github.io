@@ -8,7 +8,7 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <small><div id="debug"><p>V 35</p></div></small>
+    
     <button id="debug-button" onclick="toggleDebug()">Debug</button>
     <main>
     <button id="button">Press & Hold to speak</button>
@@ -20,6 +20,7 @@
     <p></p>
     <div id="output"></div>
     <p></p>
+    <small><div id="debug"><p>V 36</p></div></small>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -103,13 +104,11 @@
             debug("touchstart");
             start();
             listening = true;
-            event.preventDefault();
           });
           button.addEventListener("touchend", event => {
             debug("touchend");
             stop();
             listening = false;
-            event.preventDefault();
           });
         } 
       });
