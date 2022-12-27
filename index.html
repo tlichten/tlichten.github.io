@@ -25,9 +25,9 @@
     <div id="output"></div>
     <p></p>
     <small>
-      <div id="debug">
-        <p>V 59</p>
+      <div id="debug" style="display: none;">
       </div>
+      <p>V 60</p>
     </small>
   </main>
 
@@ -197,7 +197,7 @@
     // append the p element to the debug element
     debug.appendChild(p);
   }
-  var debugflag = true;
+  var debugflag = false;
   function toggleDebug() {
     debugflag = !debugflag;
     if (debugflag) {
