@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Nea.chat</title>
-  </head>
-  <body>
-    
-    <button id="debug-button" onclick="toggleDebug()">Debug</button>
-    <button id="history-button" onclick="toggleHistory()">Clear</button>
-    <main>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Nea.chat</title>
+</head>
+
+<body>
+
+  <button id="debug-button" onclick="toggleDebug()">Debug</button>
+  <button id="history-button" onclick="toggleHistory()">Clear</button>
+  <main>
     <button id="button"><i class="fa fa-microphone fa-4x"></i></button>
     <p id="message" hidden aria-hidden="true">
       Your browser doesn't support Speech Recognition. Sorry.
@@ -22,209 +24,193 @@
     <p></p>
     <div id="output"></div>
     <p></p>
-    <small><div id="debug"><p>V 59</p></div></small>
-   </main>
+    <small>
+      <div id="debug">
+        <p>V 59</p>
+      </div>
+    </small>
+  </main>
 
-    <button id="mic-button" hidden>Press to speak</button>
+  <button id="mic-button" hidden>Press to speak</button>
 
-  </body>
-  <script>
+</body>
+<script>
 
-      const lang = 'de-DE';
-      const micButton = document.getElementById('mic-button');
+  const lang = 'de-DE';
+  const micButton = document.getElementById('mic-button');
 
-      const historyKey = "history4";
-      var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
+  const historyKey = "history4";
+  var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
 
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const API_KEY = urlParams.get('API_KEY');
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const API_KEY = urlParams.get('API_KEY');
 
-       // write a function that will take text and append it to a debug html element called debug
-      function debug2(text) {
-        // get the debug element
-        let debug = document.getElementById('debug');
-        // create a new p element
-        let p = document.createElement('p');
-        // set the text of the p element to the text passed to the function
-        p.textContent = text;
-        // append the p element to the debug element
-        debug.appendChild(p);
-      }
+  debug("loaded");
+  window.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("button");
+    const result = document.getElementById("result");
+    const output = document.getElementById("output");
+    const main = document.getElementsByTagName("main")[0];
+    let listening = false;
+    let lastResult = "";
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (typeof SpeechRecognition !== "undefined") {
+      const recognition = new SpeechRecognition();
+      recognition.lang = lang;
+      const stop = () => {
+        debug("stop");
+        main.classList.remove("speaking");
+        recognition.stop();
 
-    debug2("loaded");
-     window.addEventListener("DOMContentLoaded", () => {
-        const button = document.getElementById("button");
-        const result = document.getElementById("result");
-        const output = document.getElementById("output");
-        const main = document.getElementsByTagName("main")[0];
-        let listening = false;
-        let lastResult = "";
-        const SpeechRecognition =
-          window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (typeof SpeechRecognition !== "undefined") {
-          const recognition = new SpeechRecognition();
-          recognition.lang = lang;
-          const stop = () => {
-            debug2("stop");
-            main.classList.remove("speaking");
-            recognition.stop();
+        setTimeout(completeTranscript, 3000, lastResult);
+        debug("stopped");
+      };
 
-            setTimeout(completeTranscript,3000,lastResult);
-            debug2("stopped");
-          };
+      const start = () => {
+        debug
+        main.classList.add("speaking");
+        recognition.start();
+        result.textContent = "";
+        output.textContent = "";
+        debug("started");
+      };
 
-          const start = () => {
-            debug
-            main.classList.add("speaking");
-            recognition.start();
-            result.textContent = "";
-            output.textContent = "";
-            debug2("started");
-          };
-
-          const debug = text => {
-            // get the debug element
-            let debug = document.getElementById('debug');
-            // create a new p element
-            let p = document.createElement('p');
-            // set the text of the p element to the text passed to the function
-            p.textContent = text;
-            // append the p element to the debug element
-            debug.appendChild(p);
+      const onResult = event => {
+        result.innerHTML = "";
+        for (const res of event.results) {
+          const text = document.createTextNode(res[0].transcript);
+          const p = document.createElement("p");
+          if (res.isFinal) {
+            p.classList.add("final");
+            lastResult = res[0].transcript;
           }
+          result.textContent = res[0].transcript;
+        }
+      };
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.addEventListener("result", onResult);
 
-          const onResult = event => {
-            result.innerHTML = "";
-            for (const res of event.results) {
-              const text = document.createTextNode(res[0].transcript);
-              const p = document.createElement("p");
-              if (res.isFinal) {
-                p.classList.add("final");
-                lastResult = res[0].transcript;
-              }
-              result.textContent = res[0].transcript;
-            }
-          };
-          recognition.continuous = true;
-          recognition.interimResults = true;
-          recognition.addEventListener("result", onResult);
-          /*  button.addEventListener("click", event => {
-            listening ? stop() : start();
-            listening = !listening;
-          }); */
-          button.addEventListener("touchstart", event => {
-            debug2("touchstart");
-            listening ? stop() : start();
-            listening = true;
-          });
-          button.addEventListener("touchend", event => {
-            debug2("touchend");
-            listening ? stop() : start();
-            listening = false;
-          });
-        } 
+      button.addEventListener("touchstart", event => {
+        debug("touchstart");
+        listening ? stop() : start();
+        listening = true;
+      });
+      button.addEventListener("touchend", event => {
+        debug("touchend");
+        listening ? stop() : start();
+        listening = false;
+      });
+    }
+  });
+
+
+  async function completeTranscript(transcript) {
+    debug("completeTranscript");
+    const input = document.createElement('p');
+    input.textContent = transcript;
+
+    let history = "";
+    if (conversation.length > 0) {
+
+      history += "Our conversation so far:\n\n"
+      conversation.forEach(item => {
+        history += `I said: "${item.input}"\n\n`;
+        history += `You responded: "${item.output}"\n\n\n`;
       });
 
-      
+    } else {
+      console.log("conversation is empty");
+    }
+    history += `I say: "${transcript}"\n\n`;
+    history += `You respond:`;
 
-      function completeTranscript2(transcript) {
-        debug2("completeTranscript2");
-      }
+    const completedText = await completeText(history);
+    debug("completedText: " + completedText);
+    const output = document.createElement('p');
+    output.textContent = completedText;
+    document.getElementById('output').textContent = completedText;
+    let turn = {
+      input: transcript,
+      output: completedText
+    }
+    conversation.push(turn);
+    console.log(history);
+    localStorage.setItem(historyKey, JSON.stringify(conversation));
 
-      async function completeTranscript(transcript) {
-                debug2("completeTranscript");
-                const input = document.createElement('p');
-                input.textContent = transcript;
-                
-                let history = "";
-                if (conversation.length > 0) {
-                
-                   history += "Our conversation so far:\n\n"
-                   conversation.forEach(item => {
-                    history += `I said: "${item.input}"\n\n`;
-                    history += `You responded: "${item.output}"\n\n\n`;
-                  });
-                 
-                } else {
-                  console.log("conversation is empty");
-                }
-                history += `I say: "${transcript}"\n\n`;
-                history += `You respond:`;
-                
-                const completedText = await completeText(history);   
-                debug2("completedText: " + completedText);
-                const output = document.createElement('p');
-                output.textContent = completedText;
-                document.getElementById('output').textContent = completedText;
-                let turn = {
-                    input: transcript,
-                    output: completedText
-                }
-                conversation.push(turn);
-                console.log(history);
-                localStorage.setItem(historyKey, JSON.stringify(conversation));
-  
-                // Synthesize speech from the text
-                const synth = window.speechSynthesis;
-                const speakText = new SpeechSynthesisUtterance(completedText);
-                const voices = speechSynthesis
-                      .getVoices()
-                      .filter(voice => voice.lang === lang);
-                speakText.voice = voices[0];
-                speakText.lang = lang;
+    // Synthesize speech from the text
+    const synth = window.speechSynthesis;
+    const speakText = new SpeechSynthesisUtterance(completedText);
+    const voices = speechSynthesis
+      .getVoices()
+      .filter(voice => voice.lang === lang);
+    speakText.voice = voices[0];
+    speakText.lang = lang;
 
-                speakText.onerror = (event) => {
-                  debug2("An error has occurred with the speech synthesis:");
-                  debug2(event.error);
-                }
-                debug2("speak");
-                synth.speak(speakText);
-                debug2("done");
-      }
+    speakText.onerror = (event) => {
+      debug("An error has occurred with the speech synthesis:");
+      debug(event.error);
+    }
+    debug("speak");
+    synth.speak(speakText);
+    debug("done");
+  }
 
-      async function completeText(text) {
-          debug2("completeText");
-          var url = "https://api.openai.com/v1/completions";
-          var bearer = 'Bearer ' + API_KEY;
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Authorization': bearer,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              "prompt": text,
-              "model": "text-davinci-003",
-              "max_tokens": 1024
-            })
+  async function completeText(text) {
+    debug("completeText");
+    var url = "https://api.openai.com/v1/completions";
+    var bearer = 'Bearer ' + API_KEY;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': bearer,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "prompt": text,
+        "model": "text-davinci-003",
+        "max_tokens": 1024
+      })
 
 
-          })
-            .catch(error => {
-              console.log('Something bad happened ' + error)
-              debug2('Something bad happened ' + error);
-            });
-        debug2("request sent");
-        data = await response.json();
-        debug2("request received");
-        return data['choices'][0].text;
-         
-      }
-   
-    var debug = true;
-    function toggleDebug() {
-        debug = !debug;
-        if (debug) {
-          document.getElementById("debug").style.display = "block";
-        } else {
-          document.getElementById("debug").style.display = "none";
-        }
-      }
+    })
+      .catch(error => {
+        console.log('Something bad happened ' + error)
+        debug('Something bad happened ' + error);
+      });
+    debug("request sent");
+    data = await response.json();
+    debug("request received");
+    return data['choices'][0].text;
 
-      function toggleHistory() {
-        conversation =[];
-        localStorage.setItem(historyKey, JSON.stringify(conversation));
-      }
-  </script>
+  }
+
+  function debug(text) {
+    // get the debug element
+    let debug = document.getElementById('debug');
+    // create a new p element
+    let p = document.createElement('p');
+    // set the text of the p element to the text passed to the function
+    p.textContent = text;
+    // append the p element to the debug element
+    debug.appendChild(p);
+  }
+  var debugflag = true;
+  function toggleDebug() {
+    debugflag = !debugflag;
+    if (debugflag) {
+      document.getElementById("debug").style.display = "block";
+    } else {
+      document.getElementById("debug").style.display = "none";
+    }
+  }
+
+  function toggleHistory() {
+    conversation = [];
+    localStorage.setItem(historyKey, JSON.stringify(conversation));
+  }
+</script>
+
 </html>
