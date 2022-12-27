@@ -20,7 +20,7 @@
     <p></p>
     <div id="output"></div>
     <p></p>
-    <small><div id="debug"><p>V 40</p></div></small>
+    <small><div id="debug"><p>V 41</p></div></small>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -56,7 +56,7 @@
             main.classList.remove("speaking");
             recognition.stop();
             button.textContent = "Press & Hold to speak";
-            completeTranscript2(lastResult);
+            window.completeTranscript2(lastResult);
             debug("stopped");
           };
 
@@ -193,7 +193,7 @@
          
       }
     // write a function that will take text and append it to a debug html element called debug
-    function debug(text) {
+    async function debug(text) {
       // get the debug element
       let debug = document.getElementById('debug');
       // create a new p element
