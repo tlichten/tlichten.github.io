@@ -8,7 +8,11 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <small>V 30</small>
+    <small><div id="debug" style="display:none">V 30</div></small>
+    //add a button that toggles a local variable called debug
+    <button id="debug-button" onclick="toggleDebug()">Debug</button>
+
+
     <main>
     <button id="button">Press & Hold to speak</button>
     <p id="message" hidden aria-hidden="true">
@@ -18,6 +22,7 @@
     <p>
     <p></p>
     <div id="output"></div>
+    <p></p>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -87,19 +92,16 @@
             listening = !listening;
           }); */
           button.addEventListener("touchstart", event => {
-            listening ? stop() : start();
+            start();
             listening = true;
+            debug("touchstart");
           });
           button.addEventListener("touchend", event => {
-            listening ? stop() : start();
+            stop();
             listening = false;
+            debug("touchend");
           });
-        } else {
-          button.remove();
-          const message = document.getElementById("message");
-          message.removeAttribute("hidden");
-          message.setAttribute("aria-hidden", "false");
-        }
+        } 
       });
 
 
@@ -117,6 +119,7 @@
 
 
       async function completeTranscript(transcript) {
+                debug("completeTranscript");
                 const input = document.createElement('p');
                 input.textContent = transcript;
                 
@@ -163,7 +166,7 @@
       }
 
       async function completeText(text) {
-          
+          debug("completeText");
           var url = "https://api.openai.com/v1/completions";
           var bearer = 'Bearer ' + API_KEY
           const response = await fetch(url, {
@@ -182,11 +185,32 @@
           })
             .catch(error => {
               console.log('Something bad happened ' + error)
+              debug('Something bad happened ' + error);
             });
         data = await response.json();
+        debug(data['choices'][0].text)
         return data['choices'][0].text;
          
       }
-
+    // write a function that will take text and append it to a debug html element called debug
+    function debug(text) {
+      // get the debug element
+      let debug = document.getElementById('debug');
+      // create a new p element
+      let p = document.createElement('p');
+      // set the text of the p element to the text passed to the function
+      p.textContent = text;
+      // append the p element to the debug element
+      debug.appendChild(p);
+    }
+    var debug = false;
+      function toggleDebug() {
+        debug = !debug;
+        if (debug) {
+          document.getElementById("debug").style.display = "block";
+        } else {
+          document.getElementById("debug").style.display = "none";
+        }
+      }
   </script>
 </html>
