@@ -20,7 +20,7 @@
     <p></p>
     <div id="output"></div>
     <p></p>
-    <small><div id="debug"><p>V 45</p></div></small>
+    <small><div id="debug"><p>V 46</p></div></small>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -39,7 +39,7 @@
       const API_KEY = urlParams.get('API_KEY');
 
        // write a function that will take text and append it to a debug html element called debug
-      function debug(text) {
+      function debug2(text) {
         // get the debug element
         let debug = document.getElementById('debug');
         // create a new p element
@@ -50,7 +50,7 @@
         debug.appendChild(p);
       }
 
-    debug("loaded");
+    debug2("loaded");
      window.addEventListener("DOMContentLoaded", () => {
         const button = document.getElementById("button");
         const result = document.getElementById("result");
@@ -64,12 +64,12 @@
           const recognition = new SpeechRecognition();
           recognition.lang = lang;
           const stop = () => {
-            debug("stop");
+            debug2("stop");
             main.classList.remove("speaking");
             recognition.stop();
             button.textContent = "Press & Hold to speak";
             window.completeTranscript2(lastResult);
-            debug("stopped");
+            debug2("stopped");
           };
 
           const start = () => {
@@ -79,7 +79,7 @@
             button.textContent = "Release to stop";
             result.textContent = "";
             output.textContent = "";
-            debug("started");
+            debug2("started");
           };
 
           const debug = text => {
@@ -113,12 +113,12 @@
             listening = !listening;
           }); */
           button.addEventListener("touchstart", event => {
-            debug("touchstart");
+            debug2("touchstart");
             listening ? stop() : start();
             listening = true;
           });
           button.addEventListener("touchend", event => {
-            debug("touchend");
+            debug2("touchend");
             listening ? stop() : start();
             listening = false;
           });
@@ -128,11 +128,11 @@
       
 
       function completeTranscript2(transcript) {
-        debug("completeTranscript2");
+        debug2("completeTranscript2");
       }
 
       async function completeTranscript(transcript) {
-                debug("completeTranscript");
+                debug2("completeTranscript");
                 const input = document.createElement('p');
                 input.textContent = transcript;
                 
@@ -179,7 +179,7 @@
       }
 
       async function completeText(text) {
-          debug("completeText");
+          debug2("completeText");
           var url = "https://api.openai.com/v1/completions";
           var bearer = 'Bearer ' + API_KEY
           const response = await fetch(url, {
@@ -198,10 +198,10 @@
           })
             .catch(error => {
               console.log('Something bad happened ' + error)
-              debug('Something bad happened ' + error);
+              debug2('Something bad happened ' + error);
             });
         data = await response.json();
-        debug(data['choices'][0].text)
+        debug2(data['choices'][0].text)
         return data['choices'][0].text;
          
       }
