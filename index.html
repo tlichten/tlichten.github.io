@@ -38,6 +38,18 @@
       const urlParams = new URLSearchParams(queryString);
       const API_KEY = urlParams.get('API_KEY');
 
+       // write a function that will take text and append it to a debug html element called debug
+      async function debug(text) {
+        // get the debug element
+        let debug = document.getElementById('debug');
+        // create a new p element
+        let p = document.createElement('p');
+        // set the text of the p element to the text passed to the function
+        p.textContent = text;
+        // append the p element to the debug element
+        debug.appendChild(p);
+      }
+      
     debug("loaded");
      window.addEventListener("DOMContentLoaded", () => {
         const button = document.getElementById("button");
@@ -113,9 +125,10 @@
         } 
       });
 
+      
+
       async function completeTranscript2(transcript) {
         debug("completeTranscript2");
-        debug(transcript);
       }
 
       async function completeTranscript(transcript) {
@@ -192,17 +205,7 @@
         return data['choices'][0].text;
          
       }
-    // write a function that will take text and append it to a debug html element called debug
-    async function debug(text) {
-      // get the debug element
-      let debug = document.getElementById('debug');
-      // create a new p element
-      let p = document.createElement('p');
-      // set the text of the p element to the text passed to the function
-      p.textContent = text;
-      // append the p element to the debug element
-      debug.appendChild(p);
-    }
+   
     var debug = true;
     function toggleDebug() {
         debug = !debug;
