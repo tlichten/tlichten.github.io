@@ -68,6 +68,17 @@
             
           };
 
+          const debug = test => {
+            // get the debug element
+            let debug = document.getElementById('debug');
+            // create a new p element
+            let p = document.createElement('p');
+            // set the text of the p element to the text passed to the function
+            p.textContent = text;
+            // append the p element to the debug element
+            debug.appendChild(p);
+          }
+
           const onResult = event => {
             result.innerHTML = "";
             for (const res of event.results) {
@@ -92,11 +103,13 @@
             debug("touchstart");
             start();
             listening = true;
+            event.preventDefault();
           });
           button.addEventListener("touchend", event => {
+            debug("touchend");
             stop();
             listening = false;
-            debug("touchend");
+            event.preventDefault();
           });
         } 
       });
