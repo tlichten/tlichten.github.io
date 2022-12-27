@@ -54,19 +54,22 @@
           const recognition = new SpeechRecognition();
           recognition.lang = lang;
           const stop = () => {
+            debug("stop");
             main.classList.remove("speaking");
             recognition.stop();
             button.textContent = "Press & Hold to speak";
             completeTranscript(lastResult);
+            debug("stopped");
           };
 
           const start = () => {
+            debug
             main.classList.add("speaking");
             recognition.start();
             button.textContent = "Release to stop";
             result.textContent = "";
             output.textContent = "";
-            
+            debug("started");
           };
 
           const debug = text => {
@@ -88,7 +91,7 @@
               if (res.isFinal) {
                 p.classList.add("final");
                 lastResult = res[0].transcript;
-  
+                debug("final");
               }
               result.textContent = res[0].transcript;
             }
