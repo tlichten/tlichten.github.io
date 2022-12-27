@@ -12,8 +12,6 @@
 
 <body>
 
-  <button id="debug-button" onclick="toggleDebug()">Debug</button>
-  <button id="history-button" onclick="toggleHistory()">Clear</button>
   <main>
     <button id="button"><i class="fa fa-microphone fa-4x"></i></button>
     <p id="message" hidden aria-hidden="true">
@@ -30,14 +28,22 @@
       <p>V 62</p>
     </small>
   </main>
-
-  <button id="mic-button" hidden>Press to speak</button>
-
+  <p></p>
+  <p></p>
+  <button id="debug-button" onclick="toggleDebug()">Debug</button>
+  <p></p>
+  <button id="history-button" onclick="toggleHistory()">Reset history</button>
+  <form>
+    <input type="radio" id="english" name="language" value="en-EN">
+    <label for="english">English</label>
+    <br>
+    <input type="radio" id="german" name="language" value="de-DE" checked>
+    <label for="german">German</label>
+  </form>
 </body>
 <script>
 
-  const lang = 'de-DE';
-  const micButton = document.getElementById('mic-button');
+  let lang = 'de-DE';
 
   const historyKey = "history4";
   var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
@@ -212,6 +218,13 @@
     conversation = [];
     localStorage.setItem(historyKey, JSON.stringify(conversation));
   }
+
+  const form = document.querySelector('form');
+
+  form.addEventListener('change', event => {
+    lang = event.target.value;
+  });
+
 </script>
 
 </html>
