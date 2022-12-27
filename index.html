@@ -8,7 +8,7 @@
     <title>Nea.chat</title>
   </head>
   <body>
-    <small><div id="debug" style="display:none">V 31</div></small>
+    <small><div id="debug">V 32</div></small>
     <button id="debug-button" onclick="toggleDebug()">Debug</button>
     <main>
     <button id="button">Press & Hold to speak</button>
@@ -39,7 +39,7 @@
       const urlParams = new URLSearchParams(queryString);
       const API_KEY = urlParams.get('API_KEY');
 
-
+    debug("loaded");
      window.addEventListener("DOMContentLoaded", () => {
         const button = document.getElementById("button");
         const result = document.getElementById("result");
@@ -200,8 +200,8 @@
       // append the p element to the debug element
       debug.appendChild(p);
     }
-    var debug = false;
-      function toggleDebug() {
+    var debug = true;
+    function toggleDebug() {
         debug = !debug;
         if (debug) {
           document.getElementById("debug").style.display = "block";
