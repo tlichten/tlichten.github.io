@@ -20,7 +20,7 @@
     <p></p>
     <div id="output"></div>
     <p></p>
-    <small><div id="debug"><p>V 49</p></div></small>
+    <small><div id="debug"><p>V 50</p></div></small>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -168,14 +168,12 @@
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
                 // set the voice to german
-                speakText.lang = lang;
+                // speakText.lang = lang;
                 // Get a list of available voices
                 const voices = await synth.getVoices();
                 // Set the voice to the first available female voice
                 speakText.voice = voices.find(voice => voice.gender === 'female');
                 // if we are on Android, set the rate faster
-                if (navigator.userAgent.indexOf("Android") !== -1)
-                  speakText.rate = 1.2;
                 synth.speak(speakText);
       }
 
