@@ -25,7 +25,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 62</p>
+      <p>V 63</p>
     </small>
   </main>
   <p></p>
@@ -69,7 +69,8 @@
       const stop = () => {
         debug("stop");
         main.classList.remove("speaking");
-        setTimeout(completeTranscript, 1500, lastResult, recognition);
+        //setTimeout(completeTranscript, 1500, lastResult, recognition);
+        //completeTranscript(lastResult, recognition);
         debug("stopped");
       };
 
@@ -104,6 +105,7 @@
         debug("touchend");
         listening ? stop() : start();
         listening = false;
+        completeTranscript(lastResult, recognition);
       });
     }
   });
@@ -142,7 +144,7 @@
     
   }
 
-  async function speak(text) {
+  function speak(text) {
     // Synthesize speech from the text
     const synth = window.speechSynthesis;
     const speakText = new SpeechSynthesisUtterance(text);
