@@ -145,8 +145,10 @@
       .filter(voice => voice.lang === lang);
     speakText.voice = voices[0];
     speakText.lang = lang;
-    // on android mobile increase the rate of speech
-    speakText.rate = 1.2;
+    // if on android mobile increase the rate of speech 
+    if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+      speakText.rate = 1.2;
+    }
     speakText.onerror = (event) => {
       debug("An error has occurred with the speech synthesis:");
       debug(event.error);
