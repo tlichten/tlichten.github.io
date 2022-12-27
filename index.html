@@ -133,18 +133,26 @@
     console.log(history);
     localStorage.setItem(historyKey, JSON.stringify(conversation));
 
+    
+  }
+
+  async function speak(text, i=1) {
     // Synthesize speech from the text
     const synth = window.speechSynthesis;
-    const speakText = new SpeechSynthesisUtterance(completedText);
+    const speakText = new SpeechSynthesisUtterance(text);
     const voices = speechSynthesis
       .getVoices()
       .filter(voice => voice.lang === lang);
     speakText.voice = voices[0];
     speakText.lang = lang;
-
+    // on android mobile increase the rate of speech
+    speakText.rate = 1.2;
     speakText.onerror = (event) => {
       debug("An error has occurred with the speech synthesis:");
       debug(event.error);
+      if (i<5){
+        setTimeout(speak, 100, text, i+1);
+      }
     }
     debug("speak");
     synth.speak(speakText);
