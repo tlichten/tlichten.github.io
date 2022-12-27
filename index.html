@@ -132,7 +132,7 @@
     conversation.push(turn);
     console.log(history);
     localStorage.setItem(historyKey, JSON.stringify(conversation));
-
+    speak(completedText);
     
   }
 
