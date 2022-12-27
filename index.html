@@ -25,7 +25,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 64</p>
+      <p>V 65</p>
     </small>
   </main>
   <p></p>
@@ -101,12 +101,13 @@
         listening ? stop() : start();
         listening = true;
       });
-      button.addEventListener("touchend", event => {
+      button.addEventListener("touchend", async event => {
         debug("touchend");
         listening ? stop() : start();
         listening = false;
         //completeTranscript(lastResult, recognition);
-        speak("hello world");
+        const completedText = await completeText("was hast du heute vor?");
+        speak(completedText);
       } );
     }
   });
