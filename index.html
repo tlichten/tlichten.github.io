@@ -10,6 +10,7 @@
   <body>
     
     <button id="debug-button" onclick="toggleDebug()">Debug</button>
+    <button id="history-button" onclick="toggleHistory()">Clear</button>
     <main>
     <button id="button">Press & Hold to speak</button>
     <p id="message" hidden aria-hidden="true">
@@ -20,7 +21,7 @@
     <p></p>
     <div id="output"></div>
     <p></p>
-    <small><div id="debug"><p>V 54</p></div></small>
+    <small><div id="debug"><p>V 55</p></div></small>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -214,6 +215,11 @@
         } else {
           document.getElementById("debug").style.display = "none";
         }
+      }
+
+      function toggleHistory() {
+        conversation =[];
+        localStorage.setItem(historyKey, JSON.stringify(conversation));
       }
   </script>
 </html>
