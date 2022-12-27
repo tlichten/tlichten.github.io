@@ -20,7 +20,7 @@
     <p></p>
     <div id="output"></div>
     <p></p>
-    <small><div id="debug"><p>V 53</p></div></small>
+    <small><div id="debug"><p>V 54</p></div></small>
    </main>
 
     <button id="mic-button" hidden>Press to speak</button>
@@ -168,6 +168,10 @@
                 // Synthesize speech from the text
                 const synth = window.speechSynthesis;
                 const speakText = new SpeechSynthesisUtterance(completedText);
+                speakText.onerror = (event) => {
+                  debug2("An error has occurred with the speech synthesis:");
+                  debug2(event.error);
+                }
                 debug2("speak");
                 synth.speak(speakText);
                 debug2("done");
