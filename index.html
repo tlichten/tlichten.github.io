@@ -105,8 +105,26 @@
         debug("touchend");
         listening ? stop() : start();
         listening = false;
-        completeTranscript(lastResult, recognition);
-      });
+        //completeTranscript(lastResult, recognition);
+        const synth = window.speechSynthesis;
+          const speakText = new SpeechSynthesisUtterance("Hello World");
+          const voices = speechSynthesis
+            .getVoices()
+            .filter(voice => voice.lang === lang);
+          speakText.voice = voices[0];
+          speakText.lang = lang;
+          // if on android mobile increase the rate of speech 
+          if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+            speakText.rate = 1.2;
+          }
+          speakText.onerror = (event) => {
+            debug("An error has occurred with the speech synthesis:");
+            debug(event.error);
+          }
+          debug("speak");
+          synth.speak(speakText);
+          debug("done");
+      } );
     }
   });
 
