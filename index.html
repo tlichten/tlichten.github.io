@@ -69,8 +69,7 @@
       const stop = () => {
         debug("stop");
         main.classList.remove("speaking");
-        recognition.stop();
-        setTimeout(completeTranscript, 100, lastResult);
+        setTimeout(completeTranscript, 1500, lastResult, recognition);
         debug("stopped");
       };
 
@@ -110,9 +109,9 @@
   });
 
 
-  async function completeTranscript(transcript) {
+  async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
-
+    recognition.stop();
     let history = "";
     if (conversation.length > 0) {
 
