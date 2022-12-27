@@ -64,7 +64,7 @@
         main.classList.remove("speaking");
         recognition.stop();
 
-        setTimeout(completeTranscript, 3000, lastResult);
+        setTimeout(completeTranscript, 100, lastResult);
         debug("stopped");
       };
 
@@ -80,10 +80,7 @@
       const onResult = event => {
         result.innerHTML = "";
         for (const res of event.results) {
-          const text = document.createTextNode(res[0].transcript);
-          const p = document.createElement("p");
           if (res.isFinal) {
-            p.classList.add("final");
             lastResult = res[0].transcript;
           }
           result.textContent = res[0].transcript;
@@ -109,8 +106,6 @@
 
   async function completeTranscript(transcript) {
     debug("completeTranscript");
-    const input = document.createElement('p');
-    input.textContent = transcript;
 
     let history = "";
     if (conversation.length > 0) {
@@ -129,8 +124,6 @@
 
     const completedText = await completeText(history);
     debug("completedText: " + completedText);
-    const output = document.createElement('p');
-    output.textContent = completedText;
     document.getElementById('output').textContent = completedText;
     let turn = {
       input: transcript,
