@@ -88,11 +88,7 @@ body {
     color: #f22f46;
     margin-bottom: 4em;
   }
-  button:hover,
-  button:focus {
-    background: #f22f46;
-    color: #fff;
-  }
+
   .speaking #button {
     -webkit-animation: glowing 1500ms infinite;
     -moz-animation: glowing 1500ms infinite;
