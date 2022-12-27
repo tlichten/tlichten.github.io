@@ -10,7 +10,7 @@
   <body>
     <small>V 30</small>
     <main>
-    <button id="button">Press & Hold</button>
+    <button id="button">Press & Hold to speak</button>
     <p id="message" hidden aria-hidden="true">
       Your browser doesn't support Speech Recognition. Sorry.
     </p>
@@ -53,7 +53,7 @@
           const stop = () => {
             main.classList.remove("speaking");
             recognition.stop();
-            button.textContent = "Press & Hold";
+            button.textContent = "Press & Hold to speak";
             completeTranscript(lastResult);
           };
 
