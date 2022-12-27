@@ -136,7 +136,7 @@
     
   }
 
-  async function speak(text, i=1) {
+  async function speak(text) {
     // Synthesize speech from the text
     const synth = window.speechSynthesis;
     const speakText = new SpeechSynthesisUtterance(text);
