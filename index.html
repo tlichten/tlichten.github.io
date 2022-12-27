@@ -70,7 +70,7 @@
         debug("stop");
         main.classList.remove("speaking");
         //setTimeout(completeTranscript, 1500, lastResult, recognition);
-        //completeTranscript(lastResult, recognition);
+
         debug("stopped");
       };
 
@@ -92,6 +92,12 @@
           result.textContent = res[0].transcript;
         }
       };
+      const end = event => {
+        debug("end");
+        completeTranscript(lastResult, recognition);
+        debug("ended");
+      };
+      recognition.addEventListener("end", end);
       recognition.continuous = true;
       recognition.interimResults = true;
       recognition.addEventListener("result", onResult);
@@ -101,13 +107,10 @@
         listening ? stop() : start();
         listening = true;
       });
-      button.addEventListener("touchend", async event => {
+      button.addEventListener("touchend", event => {
         debug("touchend");
         listening ? stop() : start();
         listening = false;
-        //completeTranscript(lastResult, recognition);
-        const completedText = await completeText("was hast du heute vor?");
-        speak(completedText);
       } );
     }
   });
