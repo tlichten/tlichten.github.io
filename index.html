@@ -41,6 +41,26 @@
     <input type="radio" id="german" name="language" value="de-DE" checked>
     <label for="german">German</label>
   </form>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWEm0wY4p3Nby0iUSVVnRUhTiAqxIjt_o",
+      authDomain: "tts-test-373003.firebaseapp.com",
+      projectId: "tts-test-373003",
+      storageBucket: "tts-test-373003.appspot.com",
+      messagingSenderId: "305200608847",
+      appId: "1:305200608847:web:9b960b0f55cabd5e0d1c3a"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
 </body>
 <script>
 
@@ -69,8 +89,6 @@
       const stop = () => {
         debug("stop");
         main.classList.remove("speaking");
-        //setTimeout(completeTranscript, 1500, lastResult, recognition);
-
         debug("stopped");
       };
 
