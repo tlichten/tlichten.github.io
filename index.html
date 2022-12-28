@@ -25,7 +25,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 66</p>
+      <p>V 67</p>
     </small>
   </main>
   <p></p>
@@ -42,30 +42,17 @@
     <label for="german">German</label>
   </form>
 
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWEm0wY4p3Nby0iUSVVnRUhTiAqxIjt_o",
-      authDomain: "tts-test-373003.firebaseapp.com",
-      projectId: "tts-test-373003",
-      storageBucket: "tts-test-373003.appspot.com",
-      messagingSenderId: "305200608847",
-      appId: "1:305200608847:web:9b960b0f55cabd5e0d1c3a"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-  </script>
 </body>
 <script>
+  const speakAudio = new Audio();
+  speakAudio.autoplay = true;
+
+  // onClick of first interaction on page before I need the sounds
+  // (This is a tiny MP3 file that is silent and extremely short - retrieved from https://bigsoundbank.com and then modified)
+  speakAudio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 
   let lang = 'de-DE';
-
+  //https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=Es%20gibt%20kein%20Bier%20auf%20Hawai
   const historyKey = "history4";
   var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
 
@@ -122,6 +109,7 @@
 
       button.addEventListener("touchstart", event => {
         debug("touchstart");
+        speakAudio.play();
         listening ? stop() : start();
         listening = true;
       });
@@ -163,8 +151,12 @@
     conversation.push(turn);
     console.log(history);
     localStorage.setItem(historyKey, JSON.stringify(conversation));
-    speak(completedText);
+    speakRemote(completedText);
     
+  }
+
+  function speakRemote(text) {
+    speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text);
   }
 
   function speak(text) {
