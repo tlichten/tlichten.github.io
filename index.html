@@ -25,7 +25,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 68</p>
+      <p>V 69</p>
     </small>
   </main>
   <p></p>
@@ -110,7 +110,7 @@
 
       button.addEventListener("touchstart", event => {
         speakAudio.muted=false;
-        speakAudio.play();
+        speakRemote("Hallo, ich bin Gitty. Wie kann ich dir helfen?");
         
         debug("touchstart");
         listening ? stop() : start();
@@ -154,7 +154,7 @@
     conversation.push(turn);
     console.log(history);
     localStorage.setItem(historyKey, JSON.stringify(conversation));
-    speakRemote(completedText);
+    //speakRemote(completedText);
     
   }
 
