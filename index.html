@@ -161,6 +161,7 @@
   }
 
   function speakRemote(text) {
+    speakAudio.muted=false;
     speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text);
     speakAudio.play();
   }
