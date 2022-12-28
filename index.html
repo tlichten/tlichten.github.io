@@ -46,6 +46,7 @@
 <script>
   const speakAudio = new Audio();
   speakAudio.autoplay = true;
+  speakAudio.muted = true;
 
   // onClick of first interaction on page before I need the sounds
   // (This is a tiny MP3 file that is silent and extremely short - retrieved from https://bigsoundbank.com and then modified)
@@ -108,8 +109,10 @@
       recognition.addEventListener("result", onResult);
 
       button.addEventListener("touchstart", event => {
-        debug("touchstart");
+        speakAudio.muted=false;
         speakAudio.play();
+        
+        debug("touchstart");
         listening ? stop() : start();
         listening = true;
       });
@@ -157,6 +160,7 @@
 
   function speakRemote(text) {
     speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text);
+    speakAudio.play();
   }
 
   function speak(text) {
