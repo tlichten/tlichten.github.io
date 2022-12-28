@@ -109,13 +109,14 @@
       recognition.addEventListener("result", onResult);
 
       button.addEventListener("touchstart", event => {
+        speakAudio.muted=false;
+        speakRemote("Hallo, ich bin Gitty. Wie kann ich dir helfen?");
         debug("touchstart");
         listening ? stop() : start();
         listening = true;
       });
       button.addEventListener("touchend", event => {
-        speakAudio.muted=false;
-        speakRemote("Hallo, ich bin Gitty. Wie kann ich dir helfen?");
+        
         debug("touchend");
         listening ? stop() : start();
         listening = false;
