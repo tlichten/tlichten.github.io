@@ -74,6 +74,7 @@
       const stop = () => {
         debug("stop");
         main.classList.remove("speaking");
+        recognition.stop();
         debug("stopped");
       };
 
@@ -97,7 +98,7 @@
       };
       const end = event => {
         debug("end");
-        completeTranscript(lastResult, recognition);
+        completeTranscript(lastResult);
         debug("ended");
       };
       recognition.addEventListener("end", end);
@@ -130,7 +131,7 @@
 
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
-    recognition.stop();
+
     let history = "";
     if (conversation.length > 0) {
 
