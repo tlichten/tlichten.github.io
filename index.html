@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 92</p>
+      <p>V 93</p>
     </small>
   </main>
   <p></p>
@@ -142,7 +142,7 @@
 
       button.addEventListener("click", event => {
         debug("click");
-        if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
+        if (listening) { stop(); if(lastResult.length>0) window.setTimeout(completeTranscript, 950, lastResult); } else start();
         listening = !listening;
       });
       
