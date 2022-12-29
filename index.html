@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 80</p>
+      <p>V 81</p>
     </small>
   </main>
   <p></p>
@@ -95,6 +95,7 @@
             stream.getTracks().forEach(function (track) {
               track.stop();
             });
+         
             window.setTimeout((main, recognition, result, output)  => {
               main.classList.add("speaking");
             recognition.start();
@@ -116,9 +117,7 @@
       const onResult = event => {
         result.innerHTML = "";
         for (const res of event.results) {
-          if (res.isFinal) {
-            lastResult = res[0].transcript;
-          }
+          lastResult = res[0].transcript;
           result.textContent = res[0].transcript;
         }
       };
