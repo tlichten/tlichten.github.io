@@ -199,6 +199,7 @@
         debug("end");
         //completeTranscript(lastResult);
         input.textContent = lastResult;
+        result.textContent = "";
         debug("ended");
       };
       recognition.addEventListener("end", end);
@@ -256,6 +257,8 @@
     history += `I say: "${transcript}"\n\n`;
     history += `You respond:`;
     document.getElementById('output').innerHTML = '<div class="ticontainer"><div class="tiblock"> <div class="tidot"></div> <div class="tidot"></div> <div class="tidot"></div></div></div>';
+    const cardBody = document.querySelector('.card-body');
+    cardBody.scrollTop = cardBody.scrollHeight;
     const completedText = await completeText(history);
     debug("completedText: " + completedText);
     document.getElementById('output').innerHTML = "";
