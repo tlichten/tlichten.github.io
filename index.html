@@ -100,7 +100,7 @@
       };
       const end = event => {
         debug("end");
-        completeTranscript(lastResult);
+        //completeTranscript(lastResult);
         debug("ended");
       };
       recognition.addEventListener("end", end);
@@ -108,8 +108,9 @@
       recognition.interimResults = true;
       recognition.addEventListener("result", onResult);
 
-      // if on a mobile device, use touch events
-      if (window.matchMedia("(max-width: 768px)").matches) {
+      // if on an Android mobile device, use touch events
+      // otherwise use click events
+      if (navigator.userAgent.match(/Android/i)) {
         button.addEventListener("touchstart", event => {
           debug("touchstart");
           listening ? stop() : start();
@@ -123,7 +124,8 @@
       } else {
         button.addEventListener("click", event => {
           debug("click");
-          listening ? stop() : start();
+          if(listening)
+          {stop(); completeTranscript(lastResult); } else start();
           listening = !listening;
         });
       }
