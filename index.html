@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 82</p>
+      <p>V 83</p>
     </small>
   </main>
   <p></p>
@@ -54,7 +54,7 @@
   const speakAudio = new Audio();
   speakAudio.autoplay = true;
   speakAudio.muted = true;
-  let = initialAudio = true
+  window["initialAudio"] = true;
   let lang = 'de-DE';
   const historyKey = "history4";
   var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
@@ -95,21 +95,21 @@
             stream.getTracks().forEach(function (track) {
               track.stop();
             });
-            if (initialAudio) {
-            window.setTimeout((main, recognition, result, output, initialAudio)  => {
+            if (window["initialAudio"]) {
+            window.setTimeout((main, recognition, result, output)  => {
               main.classList.add("speaking");
               recognition.start();
               result.textContent = "";
               output.textContent = "";
               debug("started");
-              initialAudio = false;
-            }, 1500, main, recognition, result, output, initialAudio);
+              window["initialAudio"] = false;
+            }, 1500, main, recognition, result, output);
           } else {
             main.classList.add("speaking");
             recognition.start();
             result.textContent = "";
             output.textContent = "";
-            debug("started");
+            debug("started fast");
           }
 
             
