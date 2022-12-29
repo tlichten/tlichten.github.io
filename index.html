@@ -339,11 +339,6 @@
     localStorage.setItem(historyKey, JSON.stringify(conversation));
   }
 
-  const form = document.querySelector('form');
-
-  form.addEventListener('change', event => {
-    lang = event.target.value;
-  });
 
   $(document).ready(function(){
     $('#action_menu_btn').click(function(){
