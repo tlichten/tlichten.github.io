@@ -27,7 +27,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 75</p>
+      <p>V 76</p>
     </small>
   </main>
   <p></p>
@@ -100,7 +100,7 @@
       };
       const end = event => {
         debug("end");
-        //completeTranscript(lastResult);
+        completeTranscript(lastResult);
         debug("ended");
       };
       recognition.addEventListener("end", end);
@@ -125,7 +125,7 @@
         button.addEventListener("click", event => {
           debug("click");
           if(listening)
-          {stop(); completeTranscript(lastResult); } else start();
+          {stop(); } else start();
           listening = !listening;
         });
       }
@@ -135,7 +135,7 @@
 
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
-
+    debug("transcript: " + transcript);
     let history = "";
     if (conversation.length > 0) {
 
