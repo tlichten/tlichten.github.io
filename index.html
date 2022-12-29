@@ -103,19 +103,6 @@
           }).catch(function (error) {
             // The user has not granted microphone access
             console.log("Microphone access not granted");
-            navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-              console.log("Microphone access granted");
-              stream.getTracks().forEach(function (track) {
-              track.stop();
-              });
-              main.classList.add("speaking");
-              recognition.start();
-              result.textContent = "";
-              output.textContent = "";
-              debug("started");
-            }).catch(function(error) {
-              console.log("Microphone access not granted");
-            });
           });
         } else {
           console.log("getUserMedia API is not supported in this browser");
