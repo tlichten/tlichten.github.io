@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 84</p>
+      <p>V 87</p>
     </small>
   </main>
   <p></p>
@@ -139,26 +139,13 @@
       recognition.interimResults = true;
       recognition.addEventListener("result", onResult);
 
-      // if on an Android mobile device, use touch events
-      // otherwise use click events
-      if (navigator.userAgent.match(/Android/i)) {
-        button.addEventListener("touchstart", event => {
-          debug("touchstart");
-          listening ? stop() : start();
-          listening = true;
-        });
-        button.addEventListener("touchend", event => {
-          debug("touchend");
-          listening ? stop() : start();
-          listening = false;
-        });
-      } else {
-        button.addEventListener("click", event => {
-          debug("click");
-          if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
-          listening = !listening;
-        });
-      }
+
+      button.addEventListener("click", event => {
+        debug("click");
+        if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
+        listening = !listening;
+      });
+      
     }
   });
 
