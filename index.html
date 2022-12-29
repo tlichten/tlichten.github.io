@@ -27,7 +27,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 74</p>
+      <p>V 75</p>
     </small>
   </main>
   <p></p>
@@ -52,7 +52,7 @@
   speakAudio.autoplay = true;
   speakAudio.muted = true;
 
-  let lang = 'en-US';
+  let lang = 'de-DE';
   const historyKey = "history4";
   var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
 
@@ -175,7 +175,7 @@
   }
   function speakRemote(text) {
     speakAudio.muted=false;
-    speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text);
+    speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text) + "&lang="+lang;
     speakAudio.play();
   }
 
