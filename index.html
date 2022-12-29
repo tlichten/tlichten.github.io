@@ -7,11 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <title>Nea.chat</title>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <body>
 
   <main>
@@ -27,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 76</p>
+      <p>V 77</p>
     </small>
   </main>
   <p></p>
@@ -39,7 +42,7 @@
   <button id="history-button" onclick="toggleHistory()">Reset history</button>
   <p></p>
   <form>
-   <!-- <input type="radio" id="english" name="language" value="en-EN">
+    <!-- <input type="radio" id="english" name="language" value="en-EN">
     <label for="english">English</label>
     <br> -->
     <input type="radio" id="german" name="language" value="de-DE" checked>
@@ -62,6 +65,7 @@
 
   debug("loaded");
   window.addEventListener("DOMContentLoaded", () => {
+
     const button = document.getElementById("button");
     const result = document.getElementById("result");
     const output = document.getElementById("output");
@@ -81,12 +85,42 @@
       };
 
       const start = () => {
-        debug
-        main.classList.add("speaking");
-        recognition.start();
-        result.textContent = "";
-        output.textContent = "";
-        debug("started");
+        debug("start");
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          // Check if the user has already granted microphone access
+          navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+            // The user has already granted microphone access
+            console.log("Microphone access granted");
+            // Stop the stream from being recorded (we only needed to check the permission)
+            stream.getTracks().forEach(function (track) {
+              track.stop();
+            });
+            main.classList.add("speaking");
+            recognition.start();
+            result.textContent = "";
+            output.textContent = "";
+            debug("started");
+          }).catch(function (error) {
+            // The user has not granted microphone access
+            console.log("Microphone access not granted");
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+              console.log("Microphone access granted");
+              stream.getTracks().forEach(function (track) {
+              track.stop();
+              });
+              main.classList.add("speaking");
+              recognition.start();
+              result.textContent = "";
+              output.textContent = "";
+              debug("started");
+            }).catch(function(error) {
+              console.log("Microphone access not granted");
+            });
+          });
+        } else {
+          console.log("getUserMedia API is not supported in this browser");
+        }
+       
       };
 
       const onResult = event => {
@@ -124,14 +158,34 @@
       } else {
         button.addEventListener("click", event => {
           debug("click");
-          if(listening)
-          {stop(); window.setTimeout(completeTranscript, 950, lastResult ); } else start();
+          if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
           listening = !listening;
         });
       }
     }
   });
 
+  function checkMicrophonePermission() {
+    // Check if the browser supports the getUserMedia API
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Check if the user has already granted microphone access
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+        // The user has already granted microphone access
+        console.log("Microphone access granted");
+        // Stop the stream from being recorded (we only needed to check the permission)
+        stream.getTracks().forEach(function (track) {
+          track.stop();
+        });
+      }).catch(function (error) {
+        // The user has not granted microphone access
+        console.log("Microphone access not granted");
+        // Show the "enable microphone" button
+        document.getElementById("enable-microphone-button").style.display = "block";
+      });
+    } else {
+      console.log("getUserMedia API is not supported in this browser");
+    }
+  }
 
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
@@ -150,10 +204,10 @@
     }
     history += `I say: "${transcript}"\n\n`;
     history += `You respond:`;
-    document.getElementById('output').innerHTML="<i class='fa fa-spinner fa-spin fa-4x'></i>";
+    document.getElementById('output').innerHTML = "<i class='fa fa-spinner fa-spin fa-4x'></i>";
     const completedText = await completeText(history);
     debug("completedText: " + completedText);
-    document.getElementById('output').innerHTML="";
+    document.getElementById('output').innerHTML = "";
     document.getElementById('output').textContent = completedText;
     let turn = {
       input: transcript,
@@ -163,25 +217,25 @@
     console.log(history);
     localStorage.setItem(historyKey, JSON.stringify(conversation));
     speakRemote(completedText);
-    
+
   }
 
   function activateAudio() {
-    speakAudio.muted=false;
-      // onClick of first interaction on page before I need the sounds
-      // (This is a tiny MP3 file that is silent and extremely short - retrieved from https://bigsoundbank.com and then modified)
-      speakAudio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+    speakAudio.muted = false;
+    // onClick of first interaction on page before I need the sounds
+    // (This is a tiny MP3 file that is silent and extremely short - retrieved from https://bigsoundbank.com and then modified)
+    speakAudio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 
   }
   function speakRemote(text) {
-    speakAudio.muted=false;
-    speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text) + "&lang="+lang;
+    speakAudio.muted = false;
+    speakAudio.src = "https://europe-west3-gitty-339716.cloudfunctions.net/texttospeech?text=" + encodeURIComponent(text) + "&lang=" + lang;
     speakAudio.play();
   }
 
   async function completeText(text) {
     debug("completeText");
-    
+
     var url = "https://api.openai.com/v1/completions";
     var bearer = 'Bearer ' + API_KEY;
     const response = await fetch(url, {
