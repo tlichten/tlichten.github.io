@@ -22,6 +22,7 @@
 <body>
   <div class="container-fluid h-100">
     <div class="row justify-content-center h-100">
+      <main>
       <div class="col-md-8 col-xl-6 chat">
         <div class="card">
           <div class="card-header msg_head">
@@ -96,7 +97,7 @@
               <div class="input-group-append">
                 <span class="input-group-text attach_btn"></span>
               </div>
-              <textarea name="" class="form-control type_msg" placeholder=""></textarea>
+              <span name="" class="form-control type_msg" id="result">Tap microphone to talk</span>
               <div class="input-group-append">
                 <span class="input-group-text send_btn" id="button"><i class="fas fa-microphone fa-3x"></i></span>
               </div>
@@ -105,12 +106,12 @@
         </div>
       </div>
     </div>
+    </main>
   </div>
-  <main>
+ 
     <p id="message" hidden aria-hidden="true">
       Your browser doesn't support Speech Recognition. Sorry.
     </p>
-    <div id="result"></div>
     <p>
     <p></p>
     <div id="output"></div>
