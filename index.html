@@ -260,10 +260,10 @@
     const cardBody = document.querySelector('.card-body');
     cardBody.scrollTop = cardBody.scrollHeight;
     const completedText = await completeText(history);
-    cardBody.scrollTop = cardBody.scrollHeight;
     debug("completedText: " + completedText);
     document.getElementById('output').innerHTML = "";
     document.getElementById('output').textContent = completedText;
+    cardBody.scrollTop = cardBody.scrollHeight;
     let turn = {
       input: transcript,
       output: completedText
