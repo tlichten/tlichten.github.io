@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 81</p>
+      <p>V 82</p>
     </small>
   </main>
   <p></p>
@@ -54,7 +54,7 @@
   const speakAudio = new Audio();
   speakAudio.autoplay = true;
   speakAudio.muted = true;
-
+  let = initialAudio = true
   let lang = 'de-DE';
   const historyKey = "history4";
   var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
@@ -95,14 +95,23 @@
             stream.getTracks().forEach(function (track) {
               track.stop();
             });
-         
-            window.setTimeout((main, recognition, result, output)  => {
+            if (initialAudio) {
+            window.setTimeout((main, recognition, result, output, initialAudio)  => {
               main.classList.add("speaking");
+              recognition.start();
+              result.textContent = "";
+              output.textContent = "";
+              debug("started");
+              initialAudio = false;
+            }, 1500, main, recognition, result, output, initialAudio);
+          } else {
+            main.classList.add("speaking");
             recognition.start();
             result.textContent = "";
             output.textContent = "";
             debug("started");
-            }, 1500, main, recognition, result, output);
+          }
+
             
           }).catch(function (error) {
             // The user has not granted microphone access
