@@ -100,7 +100,7 @@
       };
       const end = event => {
         debug("end");
-        completeTranscript(lastResult);
+        //completeTranscript(lastResult);
         debug("ended");
       };
       recognition.addEventListener("end", end);
@@ -125,7 +125,7 @@
         button.addEventListener("click", event => {
           debug("click");
           if(listening)
-          {stop(); } else start();
+          {stop(); window.setTimeout(completeTranscript, 950, lastResult ); } else start();
           listening = !listening;
         });
       }
