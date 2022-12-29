@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 89</p>
+      <p>V 90</p>
     </small>
   </main>
   <p></p>
@@ -124,11 +124,10 @@
       };
 
       const onResult = event => {
-        result.innerHTML = "";
-        for (const res of event.results) {
-          lastResult = res[0].transcript;
-          result.textContent = res[0].transcript;
-        }
+        result.innerHTML = "";    
+          result.textContent =event.results[0][0].transcript;
+          lastResult=event.results[0][0].transcript;
+        
       };
       const end = event => {
         debug("end");
