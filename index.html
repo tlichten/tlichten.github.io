@@ -34,10 +34,10 @@
               <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
               <div class="action_menu">
                 <ul>
-                  <li><i class="fas fa-user-circle"></i> View profile</li>
-                  <li><i class="fas fa-users"></i> Add to close friends</li>
-                  <li><i class="fas fa-plus"></i> Add to group</li>
-                  <li><i class="fas fa-ban"></i> Block</li>
+                  <li onclick="toggleHistory()"><i class="fas fa-history"></i> Clear history</li>
+                  <li onclick="toggleDebug()"><i class="fas fa-code"></i> View debug</li>
+                  <li><i class="fas fa-info-language"></i> Change language</li>
+                  <li><i class="fas fa-info-circle"></i> Privacy/Terms</li>
                 </ul>
               </div>
             </div>
@@ -78,14 +78,14 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
+                <div class="msg_cotainer_send" id="input">
                   Ok, thank you have a good day
                   <span class="msg_time_send">9:10 AM, Today</span>
                 </div>
 
               </div>
               <div class="d-flex justify-content-start mb-4">
-                <div class="msg_cotainer">
+                <div class="msg_cotainer" id="output">
                   Bye, see you
                   <span class="msg_time">9:12 AM, Today</span>
                 </div>
@@ -110,28 +110,7 @@
   <p id="message" hidden aria-hidden="true">
     Your browser doesn't support Speech Recognition. Sorry.
   </p>
-  <p>
-  <p></p>
-  <div id="output"></div>
-  <p></p>
-  <small>
-    <div id="debug" style="display: none;">
-    </div>
-    <p>V 94</p>
-  </small>
-  <p></p>
-  <p></p>
-  <button id="debug-button" onclick="toggleDebug()">Debug</button>
-  <p></p>
-  <button id="history-button" onclick="toggleHistory()">Reset history</button>
-  <p></p>
-  <form>
-    <!-- <input type="radio" id="english" name="language" value="en-EN">
-    <label for="english">English</label>
-    <br> -->
-    <input type="radio" id="german" name="language" value="de-DE" checked>
-    <label for="german">German</label>
-  </form>
+
 
 </body>
 <script>
@@ -219,6 +198,7 @@
       const end = event => {
         debug("end");
         //completeTranscript(lastResult);
+        input.textContent = lastResult;
         debug("ended");
       };
       recognition.addEventListener("end", end);
