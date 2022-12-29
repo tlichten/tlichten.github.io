@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 88</p>
+      <p>V 89</p>
     </small>
   </main>
   <p></p>
@@ -136,8 +136,8 @@
         debug("ended");
       };
       recognition.addEventListener("end", end);
-      recognition.continuous = true;
-      recognition.interimResults = true;
+      recognition.continuous = false;
+      recognition.interimResults = false;
       recognition.addEventListener("result", onResult);
 
 
