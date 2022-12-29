@@ -30,7 +30,7 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 78</p>
+      <p>V 79</p>
     </small>
   </main>
   <p></p>
@@ -95,11 +95,14 @@
             stream.getTracks().forEach(function (track) {
               track.stop();
             });
-            main.classList.add("speaking");
+            window.setTimeout((main, recognition, result, output)  => {
+              main.classList.add("speaking");
             recognition.start();
             result.textContent = "";
             output.textContent = "";
             debug("started");
+            }, 500, main, recognition, result, output);
+            
           }).catch(function (error) {
             // The user has not granted microphone access
             console.log("Microphone access not granted");
