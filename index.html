@@ -30,12 +30,10 @@
     <small>
       <div id="debug" style="display: none;">
       </div>
-      <p>V 87</p>
+      <p>V 88</p>
     </small>
   </main>
   <p></p>
-  <p></p>
-  <button id="activate-audio-button" onclick="activateAudio">Activate Audio</button>
   <p></p>
   <button id="debug-button" onclick="toggleDebug()">Debug</button>
   <p></p>
@@ -54,7 +52,10 @@
   const speakAudio = new Audio();
   speakAudio.autoplay = true;
   speakAudio.muted = true;
-  window["initialAudio"] = true;
+  // check if browser is mobile safari
+  window["initialAudio"] = navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
+
+  
   let lang = 'de-DE';
   const historyKey = "history4";
   var conversation = JSON.parse(localStorage.getItem(historyKey) || "[]");
