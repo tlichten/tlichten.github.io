@@ -35,7 +35,7 @@
               <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
               <div class="action_menu">
                 <ul>
-                  <li onclick="toggleHistory();$('.action_menu').toggle();"><i class="fas fa-trash"></i> Clear conversation</li>
+                  <li onclick="clearConversation();$('.action_menu').toggle();"><i class="fas fa-trash"></i> Clear conversation</li>
                   <li onclick="toggleDebug();$('.action_menu').toggle();"><i class="fas fa-code"></i> View debug</li>
                   <li><i class="fas fa-language"></i> Change language</li>
                   <li><i class="fas fa-info-circle"></i> Privacy/Terms</li>
@@ -91,7 +91,7 @@
     let listening = false;
     let lastResult = "";
 
-    loadMessagesfromConversation(conversation);
+    displayConversation(conversation);
 
 
     const SpeechRecognition =
@@ -178,30 +178,8 @@
     }
   });
 
-  function checkMicrophonePermission() {
-    // Check if the browser supports the getUserMedia API
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      // Check if the user has already granted microphone access
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
-        // The user has already granted microphone access
-        console.log("Microphone access granted");
-        // Stop the stream from being recorded (we only needed to check the permission)
-        stream.getTracks().forEach(function (track) {
-          track.stop();
-        });
-      }).catch(function (error) {
-        // The user has not granted microphone access
-        console.log("Microphone access not granted");
-        // Show the "enable microphone" button
-        document.getElementById("enable-microphone-button").style.display = "block";
-      });
-    } else {
-      console.log("getUserMedia API is not supported in this browser");
-    }
-  }
-
   // loadMessagesfromConversation(conversation);
-  function loadMessagesfromConversation(conversation) {
+  function displayConversation(conversation) {
     conversation.forEach((item) => {
       const sendMessage = item.input;
       const receivedMessage = item.output;
@@ -329,7 +307,7 @@
     }
   }
 
-  function toggleHistory() {
+  function clearConversation() {
     conversation = [];
     localStorage.setItem(historyKey, JSON.stringify(conversation));
     $("#messages").empty();
