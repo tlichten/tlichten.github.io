@@ -151,7 +151,7 @@
       };
       const end = event => {
         debug("end");
-        //completeTranscript(lastResult);
+        window.setTimeout(completeTranscript, 950, lastResult);
         appendMessage(lastResult);
         result.textContent = "";
         debug("ended");
@@ -164,7 +164,7 @@
 
       button.addEventListener("click", event => {
         debug("click");
-        if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
+        if (listening) { stop();  } else start();
         listening = !listening;
       });
 
