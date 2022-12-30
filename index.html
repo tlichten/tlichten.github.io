@@ -153,6 +153,11 @@
         debug("end");
         //completeTranscript(lastResult);
         appendMessage(lastResult);
+        if (navigator.userAgent.match(/Android/i)) {
+          window.setTimeout(completeTranscript, 950, lastResult);
+          stop();
+          listening = false;
+        }
         result.textContent = "";
         debug("ended");
       };
@@ -161,11 +166,14 @@
       recognition.interimResults = true;
       recognition.addEventListener("result", onResult);
 
-
       button.addEventListener("click", event => {
         debug("click");
-        if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
-        listening = !listening;
+        if (navigator.userAgent.match(/Android/i)) {
+          if (!listening) {  start(); listening = true}
+        } else {   
+          if (listening) { stop(); window.setTimeout(completeTranscript, 950, lastResult); } else start();
+          listening = !listening;
+        }
       });
 
     }
