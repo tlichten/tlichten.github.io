@@ -80,7 +80,7 @@
 
               </div>
               <div class="d-flex justify-content-start mb-4">
-                <div class="msg_cotainer" id="output">
+                <div class="msg_cotainer">
                   Bye, see you
                   <span class="msg_time">9:12 AM, Today</span>
                 </div>
@@ -129,7 +129,6 @@
 
     const button = document.getElementById("button");
     const result = document.getElementById("result");
-    const output = document.getElementById("output");
     const main = document.getElementById("main");
     let listening = false;
     let lastResult = "";
@@ -158,14 +157,13 @@
                 track.stop();
               });
               if (window["initialAudio"]) {
-                window.setTimeout((main, recognition, result, output) => {
+                window.setTimeout((main, recognition, result) => {
                   main.classList.add("speaking");
                   recognition.start();
                   result.textContent = "";
-                  output.textContent = "";
                   debug("started");
                   window["initialAudio"] = false;
-                }, 1500, main, recognition, result, output);
+                }, 1500, main, recognition, result);
               }
             }).catch(function (error) {
               // The user has not granted microphone access
@@ -178,7 +176,6 @@
           main.classList.add("speaking");
           recognition.start();
           result.textContent = "";
-          output.textContent = "";
           debug("started fast");
         }
       };
@@ -245,12 +242,10 @@
   { 
     if($('.ticontainer').length <= 0){
       $("#messages").append(`<div class="d-flex justify-content-${send ? "end" : "start"} mb-4"><div class="msg_cotainer${send ? "_send" : ""}">${text}<span class="msg_time_send">8:55 AM, Today</span></div>`);
-      scrollSmoothlyToBottom("messages");
     } else {
-      // replace .ticontainer with text
       $('.ticontainer').replaceWith(`${text}`);
-
     }
+    scrollSmoothlyToBottom("messages");
   }
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
