@@ -260,6 +260,7 @@
     const cardBody = document.querySelector('.card-body');
     cardBody.scrollTop = cardBody.scrollHeight;
     const completedText = await completeText(history);
+    completedText = completedText.replace(/"/g, "");
     debug("completedText: " + completedText);
     document.getElementById('output').innerHTML = "";
     document.getElementById('output').textContent = completedText;
