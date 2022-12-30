@@ -43,48 +43,6 @@
               </div>
             </div>
             <div class="card-body msg_card_body" id="messages">
-          
-              <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                  Hi Khalid i am good tnx how about you?
-                  <span class="msg_time_send">8:55 AM, Today</span>
-                </div>
-
-              </div>
-              <div class="d-flex justify-content-start mb-4">
-
-                <div class="msg_cotainer">
-                  I am good too, thank you for your chat template
-                  <span class="msg_time">9:00 AM, Today</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                  You are welcome
-                  <span class="msg_time_send">9:05 AM, Today</span>
-                </div>
-
-              </div>
-              <div class="d-flex justify-content-start mb-4">
-
-                <div class="msg_cotainer">
-                  I am looking for your next templates
-                  <span class="msg_time">9:07 AM, Today</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send" id="input">
-                  Ok, thank you have a good day
-                  <span class="msg_time_send">9:10 AM, Today</span>
-                </div>
-
-              </div>
-              <div class="d-flex justify-content-start mb-4">
-                <div class="msg_cotainer">
-                  Bye, see you
-                  <span class="msg_time">9:12 AM, Today</span>
-                </div>
-              </div>
             </div>
             <div class="card-footer">
               <div class="input-group">
@@ -132,6 +90,10 @@
     const main = document.getElementById("main");
     let listening = false;
     let lastResult = "";
+
+    loadMessagesfromConversation(conversation);
+
+
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
     if (typeof SpeechRecognition !== "undefined") {
@@ -231,6 +193,15 @@
     }
   }
 
+  // loadMessagesfromConversation(conversation);
+  function loadMessagesfromConversation(conversation) {
+    conversation.forEach((item) => {
+      const sendMessage = item.input;
+      const receivedMessage = item.output;
+      appendMessage(sendMessage);
+      appendMessage(receivedMessage, false);
+    });
+  }
   const scrollSmoothlyToBottom = (id) => {
    const element = $(`#${id}`);
    element.animate({
