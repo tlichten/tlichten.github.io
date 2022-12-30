@@ -332,6 +332,7 @@
   function toggleHistory() {
     conversation = [];
     localStorage.setItem(historyKey, JSON.stringify(conversation));
+    $("#messages").empty();
   }
 
 
