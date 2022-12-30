@@ -42,14 +42,8 @@
                 </ul>
               </div>
             </div>
-            <div class="card-body msg_card_body">
-              <div class="d-flex justify-content-start mb-4">
-
-                <div class="msg_cotainer">
-                  Hi, how are you samim?
-                  <span class="msg_time">8:40 AM, Today</span>
-                </div>
-              </div>
+            <div class="card-body msg_card_body" id="messages">
+          
               <div class="d-flex justify-content-end mb-4">
                 <div class="msg_cotainer_send">
                   Hi Khalid i am good tnx how about you?
@@ -240,6 +234,10 @@
     }
   }
 
+  function appendMessage(text, send=true)
+  {
+    $("#messages").append(`<<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer${send ? "_send" : ""}">${text}<span class="msg_time_send">8:55 AM, Today</span></div>`);
+  }
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
     debug("transcript: " + transcript);
