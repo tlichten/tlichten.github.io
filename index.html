@@ -234,9 +234,17 @@
     }
   }
 
+  const scrollSmoothlyToBottom = (id) => {
+   const element = $(`#${id}`);
+   element.animate({
+      scrollTop: element.prop("scrollHeight")
+   }, 500);
+  }
+
   function appendMessage(text, send=true)
   {
     $("#messages").append(`<div class="d-flex justify-content-${send ? "end" : "start"} mb-4"><div class="msg_cotainer${send ? "_send" : ""}">${text}<span class="msg_time_send">8:55 AM, Today</span></div>`);
+    scrollSmoothlyToBottom("messages");
   }
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
