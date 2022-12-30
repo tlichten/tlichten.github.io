@@ -198,9 +198,10 @@
     conversation.forEach((item) => {
       const sendMessage = item.input;
       const receivedMessage = item.output;
-      appendMessage(sendMessage);
-      appendMessage(receivedMessage, false);
+      appendMessage(sendMessage, true, false);
+      appendMessage(receivedMessage, false, false);
     });
+    scrollToBottom("messages");
   }
   const scrollSmoothlyToBottom = (id) => {
    const element = $(`#${id}`);
@@ -209,14 +210,19 @@
    }, 500);
   }
 
-  function appendMessage(text, send=true)
+  const scrollToBottom = (id) => {
+    const element = document.getElementById(id);
+    element.scrollTop = element.scrollHeight;
+  }
+  function appendMessage(text, send=true, scroll=true)
   { 
     if($('.ticontainer').length <= 0){
       $("#messages").append(`<div class="d-flex justify-content-${send ? "end" : "start"} mb-4"><div class="msg_cotainer${send ? "_send" : ""}">${text}<span class="msg_time_send">8:55 AM, Today</span></div>`);
     } else {
       $('.ticontainer').replaceWith(`${text}`);
     }
-    scrollSmoothlyToBottom("messages");
+    if(scroll)
+      scrollSmoothlyToBottom("messages");
   }
   async function completeTranscript(transcript, recognition) {
     debug("completeTranscript");
