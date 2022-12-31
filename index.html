@@ -178,7 +178,6 @@
     }
   });
 
-  // loadMessagesfromConversation(conversation);
   function displayConversation(conversation) {
     conversation.forEach((item) => {
       const sendMessage = item.input;
@@ -209,7 +208,7 @@
     if(scroll)
       scrollSmoothlyToBottom("messages");
   }
-  async function completeTranscript(transcript, recognition) {
+  async function completeTranscript(transcript) {
     debug("completeTranscript");
     debug("transcript: " + transcript);
     let history = "";
@@ -260,18 +259,14 @@
   async function completeText(text) {
     debug("completeText");
 
-    var url = "https://api.openai.com/v1/completions";
-    var bearer = 'Bearer ' + API_KEY;
+    var url = "https://europe-west3-gitty-339716.cloudfunctions.net/complete";
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': bearer,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "prompt": text,
-        "model": "text-davinci-003",
-        "max_tokens": 1024
+        "text": text
       })
 
 
